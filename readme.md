@@ -11,7 +11,7 @@ This project is only for OpenWRT routers. Currently it's based on 2203.
 
 ### Usage
 #### Step 1
-First, Add the public key [pub-dist.pub](./simonsmh-dist.pub) which is paired with private key [key-build](./key-build) for building.
+First, Add the public key [pub-dist.pub](./pub-dist.pub) which is paired with private key [key-build](./key-build) for building.
 
 ```
 wget http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@master/pub-dist.pub
