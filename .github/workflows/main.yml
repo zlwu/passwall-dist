@@ -40,12 +40,17 @@ jobs:
         git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git package/pw-pkgs
         git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/pw-luci
         mv package/pw-pkgs/* package/ && mv package/pw-luci/* package/ && rm -rf package/pw-*
+        # pull ssr-plus
+        git clone -b master https://github.com/fw876/helloworld package/helloworld
+        mv -n package/helloworld/* package/ && rm -rf package/helloworld
+        # remove trojan-plus to avoid build boost
+        rm -rf package/trojan-plus
         # po2lmo
         git clone -b master https://github.com/aa65535/openwrt-dist-luci package/openwrt-dist-luci
         # Dependency
         pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
         ./scripts/feeds update -a
-        ./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre libudns boost
+        ./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre libudns
     - name: Compile
       run: |
         cd ~/sdk
