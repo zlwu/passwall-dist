@@ -27,6 +27,7 @@ jobs:
     - name: Download Openwrt SDK
       env:
         SDK_URL: ${{ matrix.SDK_URL }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run: |
         SDK_HOME=$(head -c -8 <<< $(basename $SDK_URL))
         wget $SDK_URL
