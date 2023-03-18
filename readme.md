@@ -15,7 +15,7 @@ First, Add the public key [pub-dist.pub](./simonsmh-dist.pub) which is paired wi
 
 ```
 wget http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@master/pub-dist.pub
-opkg-key add simonsmh-dist.pub
+opkg-key add pub-dist.pub
 ```
 
 #### Step 2
