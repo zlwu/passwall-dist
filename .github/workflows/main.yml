@@ -65,7 +65,7 @@ jobs:
       run: |
         TAG=$(sed -n 's/.*targets\/\(\w*\)\/\(\w*\)\/.*/packages\/\1\/\2/p' <<< $SDK_URL)
         # Upload base only
-        cd ~/sdk/bin/packages/*
+        cd ~/sdk/bin/packages/*/passwall
         git init
         git config user.name "bot"
         git config user.email "bot@github.com"
