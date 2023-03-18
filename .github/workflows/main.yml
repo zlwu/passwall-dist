@@ -27,12 +27,20 @@ jobs:
     - name: Download Openwrt SDK
       env:
         SDK_URL: ${{ matrix.SDK_URL }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run: |
         SDK_HOME=$(head -c -8 <<< $(basename $SDK_URL))
         wget $SDK_URL
         tar xf $(basename $SDK_URL) -C ~/
         mv ~/$SDK_HOME ~/sdk
         cp key-build ~/sdk/
+        mkdir -p ~/sdk/test && cd ~/sdk/test && echo "hello" > readme.txt
+        git init
+        git config user.name "bot"
+        git config user.email "bot@github.com"
+        git add readme.txt
+        git commit -m "test"
+        git push --force --quiet "https://$GITHUB_TOKEN@github.com/zlwu/passwall-dist.git" HEAD:test_tag
     - name: Download Packages
       run: |
         cd ~/sdk
@@ -60,7 +68,7 @@ jobs:
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy is not set|g' .config
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus is not set|g' .config
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray is not set|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray is not set|g' .config
+        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin is not set|g' .config
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client is not set|g' .config
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server is not set|g' .config
         make download -j4
