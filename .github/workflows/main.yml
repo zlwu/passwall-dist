@@ -36,8 +36,8 @@ jobs:
     - name: Download Packages
       run: |
         cd ~/sdk
-        echo 'src-git pw-pkgs https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
-        echo 'src-git pw-luci https://github.com/xiaorouji/openwrt-passwall.git;luci' >> feeds.conf.default
+        echo 'src-git pwpkgs https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
+        echo 'src-git pwluci https://github.com/xiaorouji/openwrt-passwall.git;luci' >> feeds.conf.default
         #git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git package/pw-packages
         #git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/pw-luci
         #mv package/pw-packages/* package/
@@ -47,7 +47,7 @@ jobs:
         #git clone -b master https://github.com/shadowsocks/openwrt-feeds package/custom
         #pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
         ./scripts/feeds update -a 
-        ./scripts/feeds install -a -f -p pw-pkgs
+        ./scripts/feeds install -a -f -p pwpkgs
         ./scripts/feeds install luci-app-passwall
         #./scripts/feeds update -a
         #./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre ca-bundle
@@ -77,6 +77,6 @@ jobs:
         git init
         git config user.name "bot"
         git config user.email "bot@github.com"
-        git add pw-*
+        git add pw*
         git commit -m "$TAG$(TZ='Asia/Shanghai' date +@%Y%m%d)"
         git push --force --quiet "https://$GITHUB_TOKEN@github.com/zlwu/passwall-dist.git" HEAD:$TAG
