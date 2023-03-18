@@ -55,7 +55,7 @@ jobs:
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client is not set|g' .config
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server is not set|g' .config
         make download -j4
-        make package/luci-app-passwall/compile package/luci-app-ssr-plus/compile V=s
+        make package/{luci-app-ssr-plus,luci-app-passwall}/compile V=s
         make package/index
     - name: Upload
       env:
