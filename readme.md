@@ -14,7 +14,7 @@ This project is only for OpenWRT routers. Currently it's based on 2203.
 First, Add the public key [pub-dist.pub](./pub-dist.pub) which is paired with private key [key-build](./key-build) for building.
 
 ```
-wget http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@master/pub-dist.pub
+wget https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@master/pub-dist.pub
 opkg-key add pub-dist.pub
 ```
 
@@ -33,15 +33,15 @@ Here means _x86/64_ is your's target, you got **packages/_x86/64_** as **branch 
 Search your branch name in the branches list and add the following line to `/etc/opkg/customfeeds.conf`.
 
 ```
-src/gz pwpkgs http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}/pwpkgs
-src/gz pwluci http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}/pwluci
+src/gz pwpkgs https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}/pwpkgs
+src/gz pwluci https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}/pwluci
 ```
 
 For example, if you want to use `x86_64` packages and you got the branch name as `packages/x86/64`, You could use this line after the previous step.
 
 ```
-src/gz pwpkgs http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64/pwpkgs
-src/gz pwluci http://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64/pwluci
+src/gz pwpkgs https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64/pwpkgs
+src/gz pwluci https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64/pwluci
 ```
 
 Then install whatever you want.
