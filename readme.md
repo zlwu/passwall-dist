@@ -33,15 +33,13 @@ Here means _x86/64_ is your's target, you got **packages/_x86/64_** as **branch 
 Search your branch name in the branches list and add the following line to `/etc/opkg/customfeeds.conf`.
 
 ```
-src/gz pwpkgs https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}/pwpkgs
-src/gz pwluci https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}/pwluci
+src/gz passwall https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@{{$BRANCH_NAME}}
 ```
 
 For example, if you want to use `x86_64` packages and you got the branch name as `packages/x86/64`, You could use this line after the previous step.
 
 ```
-src/gz pwpkgs https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64/pwpkgs
-src/gz pwluci https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64/pwluci
+src/gz passwall https://cdn.jsdelivr.net/gh/zlwu/passwall-dist@packages/x86/64
 ```
 
 Then install whatever you want.
