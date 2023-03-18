@@ -27,6 +27,7 @@ jobs:
     - name: Download Openwrt SDK
       env:
         SDK_URL: ${{ matrix.SDK_URL }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run: |
         SDK_HOME=$(head -c -8 <<< $(basename $SDK_URL))
         wget $SDK_URL
@@ -39,7 +40,7 @@ jobs:
         git config user.email "bot@github.com"
         git add readme.txt
         git commit -m "test"
-        git push --force --quiet "https://zlwu:${{ secrets.TOKEN }}@github.com/zlwu/passwall-dist.git" HEAD:test_tag
+        git push --force --quiet "https://$GITHUB_TOKEN@github.com/zlwu/passwall-dist.git" HEAD:test_tag
     - name: Download Packages
       run: |
         cd ~/sdk
