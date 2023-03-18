@@ -45,7 +45,7 @@ jobs:
         #rm -rf package/pw-*
         # Dependency
         #git clone -b master https://github.com/shadowsocks/openwrt-feeds package/custom
-        pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
+        #pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
         ./scripts/feeds update -a 
         ./scripts/feeds install -a -f -p pw-pkgs
         ./scripts/feeds install luci-app-passwall
