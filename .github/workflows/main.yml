@@ -36,8 +36,8 @@ jobs:
     - name: Download Packages
       run: |
         cd ~/sdk
-        echo src-git pw-pkgs https://github.com/xiaorouji/openwrt-passwall.git\;packages >> feeds.conf.default
-        echo src-git pw-luci https://github.com/xiaorouji/openwrt-passwall.git\;luci >> feeds.conf.default
+        echo 'src-git pw-pkgs https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
+        echo 'src-git pw-luci https://github.com/xiaorouji/openwrt-passwall.git;luci' >> feeds.conf.default
         #git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git package/pw-packages
         #git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/pw-luci
         #mv package/pw-packages/* package/
