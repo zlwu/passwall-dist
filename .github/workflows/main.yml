@@ -36,26 +36,28 @@ jobs:
     - name: Download Packages
       run: |
         cd ~/sdk
-        # pull passwall
-        git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git package/pw-pkgs
-        git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/pw-luci
-        mv package/pw-pkgs/* package/ && mv package/pw-luci/* package/ && rm -rf package/pw-*
-        # pull ssr-plus
-        git clone -b master https://github.com/fw876/helloworld package/helloworld
-        mv -n package/helloworld/* package/ && rm -rf package/helloworld
-        # remove trojan-plus to avoid build boost
-        rm -rf package/trojan-plus
-        # po2lmo
-        git clone -b master https://github.com/aa65535/openwrt-dist-luci package/openwrt-dist-luci
-        # Dependency
-        pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
-        ./scripts/feeds update -a
-        ./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre libudns
+        # push everything to a new local repo
+        git init --bare repo && git clone ./repo pw
+        git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git pw/pw-pkgs
+        git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git pw/pw-luci
+        mv pw/pw-pkgs/* pw/ && mv pw/pw-luci/* pw/ && rm -rf pw/pw-pkgs pw/pw-luci
+        cd pw && git config user.name "bot" && git config user.email "bot@github.com" && git add . && git commit -m "init" && git push && cd .. && rm -rf pw
+        # add local repo to feeds
+        echo "src-git passwall $PWD/repo" >> feeds.conf.default
+        ./scripts/feeds update -a 
+        ./scripts/feeds install -a -f -p passwall
+        ./scripts/feeds install luci-app-passwall
     - name: Compile
       run: |
         cd ~/sdk
+        # enable all packages
         make defconfig
-        make V=s
+        cat .config | grep passwall > my.config
+        sed 's| is not set|=y|g; s|# ||g' my.config > .config
+        make defconfig
+        # build packages
+        make package/luci-app-passwall/compile V=s
+        make package/index
     - name: Upload
       env:
         SDK_URL: ${{ matrix.SDK_URL }}
@@ -63,11 +65,10 @@ jobs:
       run: |
         TAG=$(sed -n 's/.*targets\/\(\w*\)\/\(\w*\)\/.*/packages\/\1\/\2/p' <<< $SDK_URL)
         # Upload base only
-        cd ~/sdk/bin/packages/*/base
+        cd ~/sdk/bin/packages/*
         git init
         git config user.name "bot"
         git config user.email "bot@github.com"
-        git add .
+        git add pw*
         git commit -m "$TAG$(TZ='Asia/Shanghai' date +@%Y%m%d)"
         git push --force --quiet "https://$GITHUB_TOKEN@github.com/zlwu/passwall-dist.git" HEAD:$TAG
-  
