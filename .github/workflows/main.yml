@@ -3,7 +3,7 @@ on:
   push:
     branches: master
   schedule:
-  - cron: 0 0 * * *
+  - cron: 0 2 * * *
 
 jobs:
   buildpkg:
@@ -19,7 +19,7 @@ jobs:
         #- https://downloads.openwrt.org/releases/22.03.3/targets/ath79/generic/openwrt-sdk-22.03.3-ath79-generic_gcc-11.2.0_musl.Linux-x86_64.tar.xz
         #- https://downloads.openwrt.org/releases/22.03.3/targets/ath79/nand/openwrt-sdk-22.03.3-ath79-nand_gcc-11.2.0_musl.Linux-x86_64.tar.xz
         - https://downloads.openwrt.org/releases/22.03.3/targets/x86/64/openwrt-sdk-22.03.3-x86-64_gcc-11.2.0_musl.Linux-x86_64.tar.xz
-        #- https://downloads.openwrt.org/releases/22.03.3/targets/rockchip/armv8/openwrt-sdk-22.03.3-rockchip-armv8_gcc-11.2.0_musl.Linux-x86_64.tar.xz
+        - https://downloads.openwrt.org/releases/22.03.3/targets/rockchip/armv8/openwrt-sdk-22.03.3-rockchip-armv8_gcc-11.2.0_musl.Linux-x86_64.tar.xz
     steps:
     - uses: actions/checkout@master
     - name: Env for Openwrt SDK
@@ -38,19 +38,10 @@ jobs:
         cd ~/sdk
         echo 'src-git pwpkgs https://github.com/xiaorouji/openwrt-passwall.git;packages' >> feeds.conf.default
         echo 'src-git pwluci https://github.com/xiaorouji/openwrt-passwall.git;luci' >> feeds.conf.default
-        #git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git package/pw-packages
-        #git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/pw-luci
-        #mv package/pw-packages/* package/
-        #mv package/pw-luci/* package/
-        #rm -rf package/pw-*
-        # Dependency
-        #git clone -b master https://github.com/shadowsocks/openwrt-feeds package/custom
-        #pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
+        echo 'src-git ssrp https://github.com/fw876/helloworld.git' >> feeds.conf.default 
         ./scripts/feeds update -a 
-        ./scripts/feeds install -a -f -p pwpkgs
+        ./scripts/feeds install -a -f -p pwpkgs ssrp
         ./scripts/feeds install luci-app-passwall
-        #./scripts/feeds update -a
-        #./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre ca-bundle
     - name: Compile
       run: |
         cd ~/sdk
@@ -64,7 +55,7 @@ jobs:
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client is not set|g' .config
         sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server is not set|g' .config
         make download -j4
-        make package/luci-app-passwall/compile V=s
+        make package/luci-app-passwall/compile package/luci-app-ssr-plus/compile V=s
         make package/index
     - name: Upload
       env:
@@ -77,6 +68,6 @@ jobs:
         git init
         git config user.name "bot"
         git config user.email "bot@github.com"
-        git add pw*
+        git add pw* ssrp
         git commit -m "$TAG$(TZ='Asia/Shanghai' date +@%Y%m%d)"
         git push --force --quiet "https://$GITHUB_TOKEN@github.com/zlwu/passwall-dist.git" HEAD:$TAG
