@@ -36,26 +36,20 @@ jobs:
     - name: Download Packages
       run: |
         cd ~/sdk
-        # Shadowsocks
+        # pull passwall
         git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git package/pw-pkgs
         git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git package/pw-luci
         mv package/pw-pkgs/* package/ && mv package/pw-luci/* package/ && rm -rf package/pw-*
+        # po2lmo
+        git clone -b master https://github.com/aa65535/openwrt-dist-luci package/openwrt-dist-luci
         # Dependency
         pushd package/openwrt-dist-luci/tools/po2lmo ; make && sudo make install ; popd
         ./scripts/feeds update -a
-        ./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre libudns
+        ./scripts/feeds install golang c-ares libev libopenssl libsodium mbedtls pcre libudns boost
     - name: Compile
       run: |
         cd ~/sdk
         make defconfig
-        # Edit config
-        sed -i 's|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray_Plugin is not set|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray_Plugin=y|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy is not set|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus is not set|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray is not set|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin is not set|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client is not set|g' .config
-        sed -i 's|CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=y|# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server is not set|g' .config
         make V=s
     - name: Upload
       env:
