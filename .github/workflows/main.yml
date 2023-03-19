@@ -52,8 +52,8 @@ jobs:
         cd ~/sdk
         # enable all packages
         make defconfig
-        cat .config | grep passwall > my.config
-        sed 's| is not set|=y|g; s|# ||g' my.config > .config
+        cat .config | grep passwall | sed 's| is not set|=y|g; s|# ||g'  > my.config
+        sed "s|CONFIG_PACKAGE_luci-app-passwall_Iptables_Transparent_Proxy=y|CONFIG_PACKAGE_luci-app-passwall_Iptables_Transparent_Proxy=n|g" my.config > .config
         make defconfig
         # build packages
         make package/luci-app-passwall/compile V=s
