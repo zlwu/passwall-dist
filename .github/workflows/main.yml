@@ -38,8 +38,8 @@ jobs:
         cd ~/sdk
         # push everything to a new local repo
         git init --bare repo && git clone ./repo pw
-        git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git pw/pw-pkgs
-        git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git pw/pw-luci
+        git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git pw/pw-pkgs
+        git clone -b main https://github.com/xiaorouji/openwrt-passwall.git pw/pw-luci
         mv pw/pw-pkgs/* pw/ && mv pw/pw-luci/* pw/ && rm -rf pw/pw-pkgs pw/pw-luci
         cd pw && git config user.name "bot" && git config user.email "bot@github.com" && git add . && git commit -m "init" && git push && cd .. && rm -rf pw
         # add local repo to feeds
@@ -50,10 +50,18 @@ jobs:
     - name: Compile
       run: |
         cd ~/sdk
-        # enable all packages
-        make defconfig
-        cat .config | grep passwall | sed 's| is not set|=y|g; s|# ||g'  > my.config
-        sed "s|CONFIG_PACKAGE_luci-app-passwall_Iptables_Transparent_Proxy=y|CONFIG_PACKAGE_luci-app-passwall_Iptables_Transparent_Proxy=n|g" my.config > .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall=y' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_Iptables_Transparent_Proxy=n' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_Nftables_Transparent_Proxy=y' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=n' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server=n' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Server=y' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Client=y' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin=n' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=n' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus=y' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_tuic_client=y' >> .config
+        echo 'CONFIG_PACKAGE_luci-i18n-passwall-zh-cn=y' >> .config
         make defconfig
         # build packages
         make package/luci-app-passwall/compile V=s
