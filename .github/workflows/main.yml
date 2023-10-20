@@ -56,6 +56,7 @@ jobs:
         echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Client=y' >> .config
         echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin=n' >> .config
         echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=n' >> .config
+        echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_SingBox=n' >> .config
         echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus=y' >> .config
         echo 'CONFIG_PACKAGE_luci-app-passwall_INCLUDE_tuic_client=y' >> .config
         echo 'CONFIG_PACKAGE_luci-i18n-passwall-zh-cn=y' >> .config
