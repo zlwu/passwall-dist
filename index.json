@@ -1,0 +1,1 @@
+{"architecture": "x86_64", "packages":{"chinadns-ng": "2024.03.07-1", "dns2socks": "2.1-2", "dns2tcp": "1.1.0-1", "luci-app-passwall": "4.75-9", "luci-i18n-passwall-zh-cn": "git-24.074.65250-896bb25", "microsocks": "1.0.4-1", "tcping": "0.3-1"}}

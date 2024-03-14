@@ -1,0 +1,84 @@
+Package: chinadns-ng
+Version: 2024.03.07-1
+Depends: libc, ipset
+License: AGPL-3.0-only
+Section: net
+Architecture: x86_64
+Installed-Size: 69704
+Filename: chinadns-ng_2024.03.07-1_x86_64.ipk
+Size: 70528
+SHA256sum: a0867a1ae0d930c4712db59e8ec8ef2fc41f5bc98a16d7be8b817f1ddb042c1f
+Description:  ChinaDNS next generation, refactoring with epoll and ipset.
+
+Package: dns2socks
+Version: 2.1-2
+Depends: libc, libpthread
+License: BSD-3-Clause
+Section: net
+Architecture: x86_64
+Installed-Size: 10348
+Filename: dns2socks_2.1-2_x86_64.ipk
+Size: 11107
+SHA256sum: 8589288a83dfa21aa5186161ab470de370995b6d0e4f402d610c6f625275dc70
+Description:  This is a command line utility to resolve DNS requests via
+ a SOCKS tunnel like Tor or a HTTP proxy.
+
+Package: dns2tcp
+Version: 1.1.0-1
+Depends: libc
+License: AGPL-3.0-only
+Section: net
+Architecture: x86_64
+Installed-Size: 11697
+Filename: dns2tcp_1.1.0-1_x86_64.ipk
+Size: 12469
+SHA256sum: dd68c6c5000b245da1618049ffca5c969135d527da6ea7a2277618cc0940693e
+Description:  utility to convert dns query from udp to tcp
+
+Package: luci-app-passwall
+Version: 4.75-9
+Depends: libc, coreutils, coreutils-base64, coreutils-nohup, curl, chinadns-ng, dns2socks, dns2tcp, dnsmasq-full, ip-full, libuci-lua, lua, luci-compat, luci-lib-jsonc, microsocks, resolveip, tcping, luci-lua-runtime
+Section: luci
+Architecture: all
+Installed-Size: 655968
+Filename: luci-app-passwall_4.75-9_all.ipk
+Size: 656591
+SHA256sum: b7b95c34685524d51694d946280ccb30c71a65ff43d7d223cd9b0535be0eac80
+Description:  LuCI support for PassWall
+
+Package: luci-i18n-passwall-zh-cn
+Version: git-24.074.65250-896bb25
+Depends: libc, luci-app-passwall
+Section: luci
+Architecture: all
+Installed-Size: 12903
+Filename: luci-i18n-passwall-zh-cn_git-24.074.65250-896bb25_all.ipk
+Size: 13704
+SHA256sum: 4c5377d3deda09f5672302e2676e3251a6013413cca85e0df2725dfdc08849d7
+Description:  Translation for luci-app-passwall - 简体中文 (Chinese Simplified)
+
+Package: microsocks
+Version: 1.0.4-1
+Depends: libc, libpthread
+License: MIT
+Section: net
+Architecture: x86_64
+Installed-Size: 5429
+Filename: microsocks_1.0.4-1_x86_64.ipk
+Size: 6230
+SHA256sum: ac9622143a1bbba8ab60738c418bd67e30642016db8f5462f6f915b0b6dc7ce2
+Description:  A SOCKS5 service that you can run on your remote boxes to tunnel connections
+ through them, if for some reason SSH doesn't cut it for you.
+
+Package: tcping
+Version: 0.3-1
+Depends: libc
+License: GPL-2.0-only
+Section: net
+Architecture: x86_64
+Installed-Size: 3703
+Filename: tcping_0.3-1_x86_64.ipk
+Size: 4414
+SHA256sum: d34e263dd1c79bb6a17199b864752dd42e8e8ef13183cf6fbead5e89ee219ac9
+Description:  tcping measures the latency of a tcp-connection
+
